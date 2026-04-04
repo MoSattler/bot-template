@@ -212,7 +212,7 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@1.5
 
       - name: 🚀 Deploy Staging
-        if: ${{ github.ref == 'refs/heads/dev' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           flyctl deploy \
             --image "registry.fly.io/${{ steps.app_name.outputs.value }}-staging:${{ github.sha }}" \
