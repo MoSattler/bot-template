@@ -6,7 +6,8 @@ Before building anything new, fixing bugs, or making architectural decisions, ch
 
 1. **Epic Stack** — https://github.com/epicweb-dev/epic-stack
    The primary reference for best practices, patterns, and project structure.
-2. **React Router docs** — https://reactrouter.com
+2. **Installed skills** — check `.agents/skills/` and `docs/skills/` for relevant skill references. These contain curated, project-specific guidance that takes precedence over external docs.
+3. **React Router docs** — https://reactrouter.com
    For routing, data loading, actions, and related APIs.
 
 ## Principles
@@ -25,3 +26,14 @@ Always add tests. Prioritize by the **Testing Trophy** (https://kentcdodds.com/b
 4. **Static analysis** — TypeScript and ESLint catch the rest. 
 
 Write more tests in the middle of the trophy (integration), fewer at the extremes.
+
+## CLI Tools
+
+`gh` and `fly` are installed via Homebrew. Set the PATH before using them:
+
+```bash
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+```
+
+- **GitHub CLI:** `/opt/homebrew/bin/gh` — PRs, issues, Actions, API
+- **Fly.io CLI:** `/opt/homebrew/bin/fly` — deploy, logs, secrets, status
