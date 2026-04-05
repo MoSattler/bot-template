@@ -1,0 +1,53 @@
+name: 🔍 Preview Deploy
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  FLY_REGION: cdg
+  FLY_ORG: personal
+  APP_NAME: pr-${{ github.event.number }}-traveler-app
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pr-${{ github.event.number }}
+    environment:
+      name: pr-${{ github.event.number }}
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🎈 Setup Fly
+        uses: superfly/flyctl-actions/setup-flyctl@1.5
+
+      # Destroy on PR close
+      - name: 🗑 Destroy preview app
+        if: github.event.action == 'closed'
+        run: flyctl apps destroy $APP_NAME --yes || true
+
+      # First-time setup per Epic Stack deployment docs:
+      # https://github.com/epicweb-dev/epic-stack/blob/main/docs/deployment.md
+      - name: 🛠 Setup preview app
+        if: github.event.action != 'closed'
+        run: |
+          if ! flyctl status --app $APP_NAME 2>/dev/null; then
+            flyctl apps create $APP_NAME --org $FLY_ORG
+            flyctl volumes create data --region $FLY_REGION --size 1 --app $APP_NAME --yes
+            flyctl consul attach --app $APP_NAME
+            flyctl storage create --app $APP_NAME --name $APP_NAME-tigris --yes
+          fi
+
+      # Deploy per: https://github.com/superfly/fly-pr-review-apps
+      - name: 🚀 Deploy
+        id: deploy
+        if: github.event.action != 'closed'
+        uses: superfly/fly-pr-review-apps@1.6.0
+        with:
+          name: ${{ env.APP_NAME }}
+          region: ${{ env.FLY_REGION }}
+          org: ${{ env.FLY_ORG }}
+          ha: false
+          secrets: SESSION_SECRET=${{ secrets.SESSION_SECRET }} HONEYPOT_SECRET=${{ secrets.HONEYPOT_SECRET }} ALLOW_INDEXING=false
