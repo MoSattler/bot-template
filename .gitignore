@@ -25,3 +25,8 @@ node_modules
 # generated files
 /app/components/ui/icons
 .react-router/
+
+# claude (personal/runtime)
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md
