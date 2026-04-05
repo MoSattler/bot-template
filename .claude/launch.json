@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "export PATH=\"/opt/homebrew/bin:$PATH\" && eval \"$(fnm env)\" && fnm use 22 && npm run dev"
+      ],
+      "port": 3000
+    }
+  ]
+}
