@@ -16,6 +16,19 @@ Before building anything new, fixing bugs, or making architectural decisions, ch
 - If the platform (web APIs, React Router, Node.js) provides a way to do something, use it.
 - Check existing patterns in the codebase before introducing new ones.
 
+## How to Make Changes
+
+Every change — feature, fix, or refactor — follows this process:
+
+1. **Research** — Check the reference sources above for established patterns before writing code.
+2. **Implement** — Make the changes.
+3. **Preview** — Verify the result visually in the Claude preview.
+4. **Test** — Write tests following the Testing section. Fix failures by correcting the implementation, never by hacking the tests.
+5. **Open draft PR** — Push the branch and open a draft PR on GitHub.
+6. **CI green** — All GitHub Actions must pass. Fix any failures.
+7. **Preview deployment** — Confirm the Fly.io preview deployment succeeds. Then open the deployment URL in the browser and verify the actual page works as expected. Note: the preview can take a few minutes before becoming healthy.
+8. **Ready for review** — Mark the PR as ready and assign @MoSattler.
+
 ## Testing
 
 Always add tests. Prioritize by the **Testing Trophy** (https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications):
